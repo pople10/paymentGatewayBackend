@@ -22,8 +22,6 @@ Route::post('/account/login', [UserController::class,"login"]);
 
 Route::post('/account/login/otp', [UserController::class,"OTP"]);
 
-Route::middleware('auth:sanctum')->get('/account/send', [UserController::class,"sendWebNotification"]);
-
 Route::middleware('auth:sanctum')->delete('/account/delete', [UserController::class,"delete"]);
 
 Route::middleware('auth:sanctum')->get('/account/logout', [UserController::class,"logout"]);
@@ -54,7 +52,7 @@ Route::post('/email/message/public', [EmailController::class,"contact_us"]);
 
 use App\Http\Controllers\BalanceController;
 
-Route::middleware('auth:sanctum')->post('/balance/open', [BalanceController::class,"store"]);
+Route::middleware(['auth:sanctum','isverified'])->post('/balance/open', [BalanceController::class,"store"]);
 
 Route::middleware('auth:sanctum')->delete('/balance/close/{id}', [BalanceController::class,"delete"]);
 
@@ -76,7 +74,7 @@ Route::middleware('auth:sanctum')->post('/balance/convert', [BalanceController::
 
 use App\Http\Controllers\VCCController;
 
-Route::middleware('auth:sanctum')->post('/vcc/create', [VCCController::class,"store"]);
+Route::middleware(['auth:sanctum','isverified'])->post('/vcc/create', [VCCController::class,"store"]);
 
 Route::middleware('auth:sanctum')->get('/vcc', [VCCController::class,"findAll"]);
 
@@ -86,7 +84,7 @@ Route::post('/vcc/serve', [VCCController::class,"serve"]);
 
 use App\Http\Controllers\PaymentController;
 
-Route::middleware('auth:sanctum')->post('/payment/send', [PaymentController::class,"sendPayment"]);
+Route::middleware(['auth:sanctum','isverified'])->post('/payment/send', [PaymentController::class,"sendPayment"]);
 
 Route::middleware('auth:sanctum')->post('/payment/send/check', [PaymentController::class,"checkReceiver"]);
 
@@ -94,7 +92,7 @@ Route::middleware('auth:sanctum')->get('/payment', [PaymentController::class,"fi
 
 Route::middleware('auth:sanctum')->get('/payment/{id}', [PaymentController::class,"findById"]);
 
-Route::middleware('auth:sanctum')->post('/payment/refund/full', [PaymentController::class,"fullRefund"]);
+Route::middleware(['auth:sanctum','isverified'])->post('/payment/refund/full', [PaymentController::class,"fullRefund"]);
 
 use App\Http\Controllers\CurrencyController;
 
@@ -104,9 +102,9 @@ use App\Http\Controllers\CryptoController;
 
 Route::get('/crypto/BTC/rate', [CryptoController::class,"getExchangeToBTC"]);
 
-Route::middleware('auth:sanctum')->post('/crypto/deposit', [CryptoController::class,"deposit"]);
+Route::middleware(['auth:sanctum','isverified'])->post('/crypto/deposit', [CryptoController::class,"deposit"]);
 
-Route::middleware('auth:sanctum')->post('/crypto/withdraw', [CryptoController::class,"withdraw"]);
+Route::middleware(['auth:sanctum','isverified'])->post('/crypto/withdraw', [CryptoController::class,"withdraw"]);
 
 Route::middleware('auth:sanctum')->get('/crypto/wallet', [CryptoController::class,"getWallet"]);
 
