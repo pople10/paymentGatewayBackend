@@ -167,6 +167,10 @@ class BalanceController extends Controller
             return response()->json([
                 'error' => "This balance doesn't exist"
             ], 404);
+        if($balance->currency=="USD")
+        return response()->json([
+                'error' => "You cannot close a USD balance"
+            ], 422);
         if($balance->amount!=0)
             return response()->json([
                 'error' => "You cannot close a balance with money there or with due"

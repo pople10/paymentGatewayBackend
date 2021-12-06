@@ -71,7 +71,7 @@ class VCCController extends Controller
         $cmp=0;
         while(true)
         {
-            $append = $acc->vkey = $this->generateRandomInt(8);
+            $append = $this->generateRandomInt(8);
             $number = $bin.$append;
             $cvv = $this->generateRandomInt(3);
             $currency = $request->currency;

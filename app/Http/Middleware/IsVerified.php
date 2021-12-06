@@ -18,6 +18,10 @@ class IsVerified
     {
         if(!$request->user()->verified)
             return response()->json([ 'error' => "Your account is not verified yet" ], 422);
+        if($request->user()->deleted)
+            return response()->json([ 'error' => "Your account is deleted" ], 422);
+        if(!$request->user()->enabled)
+            return response()->json([ 'error' => "Your account is disabled" ], 422);
         return $next($request);
     }
 }
